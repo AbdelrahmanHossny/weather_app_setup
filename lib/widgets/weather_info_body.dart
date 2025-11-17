@@ -67,7 +67,7 @@ class WeatherInfoBody extends StatelessWidget {
               fontWeight: FontWeight.bold,
               fontSize: 32.sp,
             ),
-          ),
+          )
         ],
       ),
     );
