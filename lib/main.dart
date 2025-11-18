@@ -1,11 +1,9 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:weather_app/service/wetherService.dart';
 import 'package:weather_app/views/home_view.dart';
 
 void main() {
-  Wetherservice(Dio()).getWether(cityName: "cairo");
+  // Wetherservice(Dio()).getWether(cityName: "cairo");
   runApp(WeatherApp());
 }
 
