@@ -1,9 +1,7 @@
-import 'dart:developer';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:weather_app/models/wethermodel.dart';
-import 'package:weather_app/service/wetherService.dart';
+import 'package:weather_app/cubits/get_weather_cubit/get_weather_cubit.dart';
 
 class SearchView extends StatelessWidget {
   const SearchView({Key? key}) : super(key: key);
@@ -12,24 +10,32 @@ class SearchView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          elevation: 0,
           leading: IconButton(
-            icon: Icon(Icons.arrow_back, color: Colors.white),
+            icon: Icon(
+              Icons.arrow_back,
+            ),
             onPressed: () {
               Navigator.pop(context);
             },
           ),
-          backgroundColor: Colors.blue,
-          title:
-              const Text('Search City', style: TextStyle(color: Colors.white)),
+          title: const Text('Search City', style: TextStyle()),
         ),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Center(
               child: TextField(
             onSubmitted: (value) async {
-              WeatherModel weatherModel =
-                  await Wetherservice(Dio()).getWether(cityName: value);
-              log(weatherModel.cityname!);
+              showDialog(
+                context: context,
+                barrierDismissible: false,
+                builder: (_) =>
+                    const Center(child: CircularProgressIndicator()),
+              );
+              await BlocProvider.of<GetWeatherCubit>(context)
+                  .getWeather(cityName: value);
+              Navigator.pop(context);
+              Navigator.pop(context);
             },
             decoration: InputDecoration(
               contentPadding: EdgeInsets.symmetric(
@@ -41,7 +47,8 @@ class SearchView extends StatelessWidget {
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8.0),
               ),
-              suffixIcon: Icon(Icons.search),
+              suffixIcon:
+                  IconButton(onPressed: () {}, icon: Icon(Icons.search)),
             ),
           )),
         ));
